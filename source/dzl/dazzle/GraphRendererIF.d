@@ -19,7 +19,6 @@
 module dazzle.GraphRendererIF;
 
 private import cairo.Context;
-private import cairo.RectangleInt;
 private import dazzle.GraphModel;
 private import dazzle.c.functions;
 public  import dazzle.c.types;

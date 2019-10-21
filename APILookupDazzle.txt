@@ -205,12 +205,11 @@ code: end
 struct: GraphRenderer
 interface: GraphRenderer
 import: cairo.Context
-import: cairo.RectangleInt
 import: dazzle.GraphModel
 noCode: render
 code: start
 	/** */
-	public void render(GraphModel table, long xBegin, long xEnd, double yBegin, double yEnd, Context cr, RectangleInt* area)
+	public void render(GraphModel table, long xBegin, long xEnd, double yBegin, double yEnd, Context cr, cairo_rectangle_int_t* area)
 	{
 		dzl_graph_view_renderer_render(getGraphRendererStruct(), (table is null) ? null : table.getGraphModelStruct(), xBegin, xEnd, yBegin, yEnd, (cr is null) ? null : cr.getContextStruct(), cast(cairo_rectangle_int_t*)area);
 	}

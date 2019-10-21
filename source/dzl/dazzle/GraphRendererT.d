@@ -19,7 +19,6 @@
 module dazzle.GraphRendererT;
 
 public  import cairo.Context;
-public  import cairo.RectangleInt;
 public  import dazzle.GraphModel;
 public  import dazzle.c.functions;
 public  import dazzle.c.types;
@@ -37,7 +36,7 @@ public template GraphRendererT(TStruct)
 	}
 
 	/** */
-	public void render(GraphModel table, long xBegin, long xEnd, double yBegin, double yEnd, Context cr, RectangleInt* area)
+	public void render(GraphModel table, long xBegin, long xEnd, double yBegin, double yEnd, Context cr, cairo_rectangle_int_t* area)
 	{
 		dzl_graph_view_renderer_render(getGraphRendererStruct(), (table is null) ? null : table.getGraphModelStruct(), xBegin, xEnd, yBegin, yEnd, (cr is null) ? null : cr.getContextStruct(), cast(cairo_rectangle_int_t*)area);
 	}
