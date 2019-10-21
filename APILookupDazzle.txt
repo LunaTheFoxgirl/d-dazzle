@@ -1,0 +1,308 @@
+#############################################
+###### Definitions for wrapping Dazzle ######
+#############################################
+
+# must start with wrap
+wrap: dazzle
+file: Dazzle-1.0.gir
+
+#
+# Types with minor patches
+#
+
+struct: DockStack
+class: DockStack
+noCode: get_style
+code: start
+    alias getStyle = Widget.getStyle;
+
+	/** */
+	public DzlTabStyle getStyle()
+	{
+		return dzl_dock_stack_get_style(dzlDockStack);
+	}
+code: end
+
+
+struct: PathBar
+class: PathBar
+noCode: get_path
+code: start
+    alias getPath = Widget.getPath;
+
+	/**
+	 * Gets the path for the view.
+	 *
+	 * Returns: A #DzlPath.
+	 */
+	public Path getPath()
+	{
+		auto p = dzl_path_bar_get_path(dzlPathBar);
+
+		if(p is null)
+		{
+			return null;
+		}
+
+		return ObjectG.getDObject!(Path)(cast(DzlPath*) p);
+	}
+code: end
+
+
+struct: DockItem
+interface: DockItem
+import: glib.Str
+noCode: get_icon_name
+noCode: get_title
+noCode: present
+code: start
+    static if (is(TStruct == DzlDockWindow)) {
+        /**
+        * Gets the icon_name for the #DzlDockItem.
+        *
+        * Generally, you want to use a #DzlDockWidget which has a "icon-name" property
+        * you can set. But this can be helpful for integration of various container
+        * widgets.
+        *
+        * Returns: A newly allocated string or %NULL.
+        */
+        public override string getIconName()
+        {
+            auto retStr = dzl_dock_item_get_icon_name(getDockItemStruct());
+
+            scope(exit) Str.freeString(retStr);
+            return Str.toString(retStr);
+        }
+
+        /**
+        * Gets the title for the #DzlDockItem.
+        *
+        * Generally, you want to use a #DzlDockWidget which has a "title" property you
+        * can set. But this can be helpful for integration of various container
+        * widgets.
+        *
+        * Returns: A newly allocated string or %NULL.
+        */
+        public override string getTitle()
+        {
+            auto retStr = dzl_dock_item_get_title(getDockItemStruct());
+
+            scope(exit) Str.freeString(retStr);
+            return Str.toString(retStr);
+        }
+
+        /**
+        * This widget will walk the widget hierarchy to ensure that the
+        * dock item is visible to the user.
+        */
+        public override void present()
+        {
+            dzl_dock_item_present(getDockItemStruct());
+        }
+    } else {
+        /**
+        * Gets the icon_name for the #DzlDockItem.
+        *
+        * Generally, you want to use a #DzlDockWidget which has a "icon-name" property
+        * you can set. But this can be helpful for integration of various container
+        * widgets.
+        *
+        * Returns: A newly allocated string or %NULL.
+        */
+        public string getIconName()
+        {
+            auto retStr = dzl_dock_item_get_icon_name(getDockItemStruct());
+
+            scope(exit) Str.freeString(retStr);
+            return Str.toString(retStr);
+        }
+
+        /**
+        * Gets the title for the #DzlDockItem.
+        *
+        * Generally, you want to use a #DzlDockWidget which has a "title" property you
+        * can set. But this can be helpful for integration of various container
+        * widgets.
+        *
+        * Returns: A newly allocated string or %NULL.
+        */
+        public string getTitle()
+        {
+            auto retStr = dzl_dock_item_get_title(getDockItemStruct());
+
+            scope(exit) Str.freeString(retStr);
+            return Str.toString(retStr);
+        }
+
+        /**
+        * This widget will walk the widget hierarchy to ensure that the
+        * dock item is visible to the user.
+        */
+        public void present()
+        {
+            dzl_dock_item_present(getDockItemStruct());
+        }
+    }
+code: end
+
+
+struct: PreferencesGroup
+class: PreferencesGroup
+override: add
+
+
+struct: Tab
+class: Tab
+noCode: get_style
+code: start
+    alias getStyle = Widget.getStyle;
+
+	/** */
+	public DzlTabStyle getStyle()
+	{
+		return dzl_tab_get_style(dzlTab);
+	}
+code: end
+
+
+struct: TabStrip
+class: TabStrip
+noCode: get_style
+code: start
+    alias getStyle = Widget.getStyle;
+
+	/** */
+	public DzlTabStyle getStyle()
+	{
+		return dzl_tab_strip_get_style(dzlTabStrip);
+	}
+code: end
+
+struct: SuggestionEntry
+class: SuggestionEntry
+noCode: default_position_func
+noCode: window_position_func
+code: start
+	/** */
+	public void defaultPositionFunc(GdkRectangle* area, bool* isAbsolute, void* userData)
+	{
+		dzl_suggestion_entry_default_position_func(dzlSuggestionEntry, area, cast(int*)&isAbsolute, userData);
+	}
+
+	/**
+	 * This is a #DzlSuggestionPositionFunc that can be used to make the suggestion
+	 * popover the full width of the window. It is similar to what you might find
+	 * in a web browser.
+	 */
+	public void windowPositionFunc(GdkRectangle* area, bool* isAbsolute, void* userData)
+	{
+		dzl_suggestion_entry_window_position_func(dzlSuggestionEntry, area, cast(int*)&isAbsolute, userData);
+	}
+
+code: end
+
+
+struct: GraphRenderer
+interface: GraphRenderer
+import: cairo.Context
+import: cairo.RectangleInt
+import: dazzle.GraphModel
+noCode: render
+code: start
+	/** */
+	public void render(GraphModel table, long xBegin, long xEnd, double yBegin, double yEnd, Context cr, RectangleInt* area)
+	{
+		dzl_graph_view_renderer_render(getGraphRendererStruct(), (table is null) ? null : table.getGraphModelStruct(), xBegin, xEnd, yBegin, yEnd, (cr is null) ? null : cr.getContextStruct(), cast(cairo_rectangle_int_t*)area);
+	}
+code: end
+
+struct: DockBin
+class: DockBin
+code: start
+    alias getParent = Widget.getParent;
+code: end
+
+struct: DockBinEdge
+class: DockBinEdge
+import: gtk.Widget
+code: start
+    alias getParent = Widget.getParent;
+code: end
+
+struct: DockOverlay
+class: DockOverlay
+code: start
+    alias getParent = Widget.getParent;
+code: end
+
+struct: DockOverlayEdge
+class: DockOverlayEdge
+import: gtk.Widget
+code: start
+    alias getParent = Widget.getParent;
+code: end
+
+struct: DockPaned
+class: DockPaned
+code: start
+    alias getParent = Widget.getParent;
+code: end
+
+struct: DockStack
+class: DockStack
+code: start
+    alias getParent = Widget.getParent;
+code: end
+
+struct: DockStack
+class: DockStack
+code: start
+    alias getParent = Widget.getParent;
+code: end
+
+struct: DockWidget
+class: DockWidget
+code: start
+    alias getParent = Widget.getParent;
+code: end
+
+struct: DockWindow
+class: DockWindow
+code: start
+    alias getParent = Widget.getParent;
+    alias close = Window.close;
+code: end
+
+
+
+#
+# These conflict with GTK because they share output names
+# manually patched versions are in the dazzle/ folder
+#
+
+struct: Application
+noCode: true
+
+struct: ApplicationWindow
+noCode: true
+
+struct: Bin
+noCode: true
+
+struct: Box
+noCode: true
+
+struct: CssProvider
+noCode: true
+
+struct: ListBox
+noCode: true
+
+struct: ListBoxRow
+noCode: true
+
+struct: MenuButton
+noCode: true
+
+struct: ScrolledWindow
+noCode: true

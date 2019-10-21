@@ -1,0 +1,17 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/d-dazzle
+d-dazzle.so
+d-dazzle.dylib
+d-dazzle.dll
+d-dazzle.a
+d-dazzle.lib
+d-dazzle-test-*
+libd-dazzle.a
+*.exe
+*.o
+*.obj
+*.lst
+dub.selections.json
