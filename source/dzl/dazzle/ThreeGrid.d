@@ -60,19 +60,53 @@ public class ThreeGrid : Container
 
 	/**
 	Adds a widget to the grid at the row and column
+	(Helper function)
 	 */
 	public void addAt(Widget widget, uint row, uint column) {
 		this.add(widget);
-		move(widget, row, column);
+		moveChild(widget, row, column);
 	}
 
 	/**
 	Moves a widget on the grid from one row/column pair to an other
+	(Helper function)
 	 */
-	public void move(Widget widget, uint row, uint column) {
+	public void moveChild(Widget widget, uint row, uint column) {
 		import gobject.Value : Value;
 		this.childSetProperty(widget, "row", new Value(row));
 		this.childSetProperty(widget, "column", new Value(column));
+	}
+
+	/**
+	Sets the column spacing
+	 */
+	public void setColumnSpacing(uint spacing) {
+		setProperty("column-spacing", spacing);
+	}
+
+	/**
+	Sets the column spacing
+	 */
+	public uint getColumnSpacing() {
+		Value val = new Value();
+		getProperty("column-spacing", val);
+		return val.get!uint;
+	}
+
+	/**
+	Sets the row spacing
+	 */
+	public void setRowSpacing(uint spacing) {
+		setProperty("row-spacing", spacing);
+	}
+
+	/**
+	Sets the row spacing
+	 */
+	public uint getRowSpacing() {
+		Value val = new Value();
+		getProperty("row-spacing", val);
+		return val.get!uint;
 	}
 
 
