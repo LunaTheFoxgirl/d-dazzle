@@ -58,6 +58,27 @@ public class ThreeGrid : Container
 	}
 
 
+	/**
+	Adds a widget to the grid at the row and column
+	 */
+	public void addAt(Widget widget, uint row, uint column) {
+		this.add(widget);
+		move(widget, row, column);
+	}
+
+	/**
+	Moves a widget on the grid from one row/column pair to an other
+	 */
+	public void move(Widget widget, uint row, uint column) {
+		import gobject.Value : Value;
+		this.childSetProperty(widget, "row", new Value(row));
+		this.childSetProperty(widget, "column", new Value(column));
+	}
+
+
+	/**
+	 */
+
 	/** */
 	public static GType getType()
 	{

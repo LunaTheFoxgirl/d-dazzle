@@ -272,6 +272,33 @@ code: start
     alias close = Window.close;
 code: end
 
+#
+# Useful additions
+#
+struct: ThreeGrid
+class: ThreeGrid
+code: start
+
+    /**
+        Adds a widget to the grid at the row and column
+        (Helper function)
+    */
+    public void addAt(Widget widget, uint row, uint column) {
+        this.add(widget);
+        move(widget, row, column);
+    }
+
+    /**
+        Moves a widget on the grid from one row/column pair to an other
+        (Helper function)
+    */
+    public void moveChild(Widget widget, uint row, uint column) {
+        import gobject.Value : Value;
+        this.childSetProperty(widget, "row", new Value(row));
+        this.childSetProperty(widget, "column", new Value(column));
+    }
+
+code: end
 
 
 #
