@@ -85,7 +85,7 @@ public class ThreeGrid : Container
 	}
 
 	/**
-	Sets the column spacing
+	Gets the column spacing
 	 */
 	public uint getColumnSpacing() {
 		Value val = new Value();
@@ -101,7 +101,7 @@ public class ThreeGrid : Container
 	}
 
 	/**
-	Sets the row spacing
+	Gets the row spacing
 	 */
 	public uint getRowSpacing() {
 		Value val = new Value();
